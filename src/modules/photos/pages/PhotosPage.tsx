@@ -9,12 +9,8 @@ interface Props {}
 
 const PhotoPage = (props: Props) => {
   const photos: IPhotoState[] = useSelector((state: AppState) => state.photos);
-  const photosRef = useRef([...photos]);
-  photosRef.current = [...photos];
   const dispatch = useDispatch();
   const [localPhotos, setLocalPhotos] = useState([...photos]);
-  const localPhotosRef = useRef([...photos]);
-  localPhotosRef.current = [...photos];
   const [isButtonsDisable, setIsButtonsDisable] = useState({
     update: true,
     reset: true,
@@ -38,11 +34,11 @@ const PhotoPage = (props: Props) => {
         await fetch(`https://jsonplaceholder.typicode.com/photos?&_start=${start}&_end=${end}`)
       ).json();
 
-      dispatch(setPhotos([...photosRef.current, ...data]));
+      dispatch(setPhotos([...photos, ...data]));
 
       setLoading(false);
     },
-    [dispatch, photosRef],
+    [dispatch, photos],
   );
 
   useEffect(() => {
@@ -107,20 +103,17 @@ const PhotoPage = (props: Props) => {
   }, [localPhotos, photos]);
 
   const updatePhotoTitle = useCallback((id: number, title: string) => {
-    const changedTitlePhoto = localPhotosRef.current.find((photo) => photo.id === id);
-    if (changedTitlePhoto) {
-      setLocalPhotos((prevLocalPhotos) =>
-        prevLocalPhotos.map((photo) => {
-          if (photo.id === id) {
-            return {
-              ...changedTitlePhoto,
-              title,
-            };
-          }
-          return photo;
-        }),
-      );
-    }
+    setLocalPhotos((prevLocalPhotos) =>
+      prevLocalPhotos.map((photo) => {
+        if (photo.id === id) {
+          return {
+            ...photo,
+            title,
+          };
+        }
+        return photo;
+      }),
+    );
   }, []);
 
   return (
