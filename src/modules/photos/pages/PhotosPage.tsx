@@ -91,21 +91,24 @@ const PhotoPage = (props: Props) => {
 
   useEffect(() => {
     const enableButtonsIfPhotoUpdated = () => {
-      if (isButtonsDisable.update) {
-        if (JSON.stringify(photos) !== JSON.stringify(localPhotos)) {
-          setIsButtonsDisable({
-            reset: false,
-            update: false,
-          });
-        }
+      if (JSON.stringify(photos) !== JSON.stringify(localPhotos)) {
+        setIsButtonsDisable({
+          reset: false,
+          update: false,
+        });
+      } else {
+        setIsButtonsDisable({
+          reset: true,
+          update: true,
+        });
       }
     };
     enableButtonsIfPhotoUpdated();
-  }, [localPhotos]);
+  }, [localPhotos, photos]);
 
   const updatePhotoTitle = useCallback((id: number, title: string) => {
     const changedTitlePhoto = localPhotosRef.current.find((photo) => photo.id === id);
-    if (changedTitlePhoto && changedTitlePhoto.title !== title) {
+    if (changedTitlePhoto) {
       setLocalPhotos((prevLocalPhotos) =>
         prevLocalPhotos.map((photo) => {
           if (photo.id === id) {
@@ -123,10 +126,10 @@ const PhotoPage = (props: Props) => {
   return (
     <div className="page__container">
       <div className="buttons">
-        <button disabled={isButtonsDisable.update} onClick={updatePhotos}>
+        <button type="button" className="btn btn-success" disabled={isButtonsDisable.update} onClick={updatePhotos}>
           Update
         </button>
-        <button disabled={isButtonsDisable.reset} onClick={resetPhotos}>
+        <button type="button" className="btn btn-danger" disabled={isButtonsDisable.reset} onClick={resetPhotos}>
           Reset
         </button>
       </div>

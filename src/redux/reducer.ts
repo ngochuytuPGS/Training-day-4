@@ -3,7 +3,7 @@ import { History } from 'history';
 import { combineReducers } from 'redux';
 import authReducer, { AuthState } from '../modules/auth/redux/authReducer';
 import intlReducer, { IntlState } from '../modules/intl/redux/intlReducer';
-import photosReducer, {IPhotoState} from '../modules/home/redux/photosReducer';
+import photosReducer, {IPhotoState} from '../modules/photos/redux/photosReducer';
 
 export interface AppState {
   router: RouterState;

@@ -14,7 +14,7 @@ import { setUserInfo } from './modules/auth/redux/authReducer';
 import { replace } from 'connected-react-router';
 import { ROUTES } from './configs/routes';
 import './scss/auth.scss';
-import './scss/home.scss';
+import './scss/photos.scss';
 
 function App() {
   const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
